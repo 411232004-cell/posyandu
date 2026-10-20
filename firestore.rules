@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function role() {
+      return signedIn() ? userDoc().data.role : null;
+    }
+
+    function isRole(roles) {
+      return signedIn() && role() in roles;
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn() && (request.auth.uid == userId || isRole(['kader']));
+      allow create: if signedIn() && request.auth.uid == userId;
+      allow update: if signedIn() && (request.auth.uid == userId || isRole(['kader']));
+      allow delete: if isRole(['kader']);
+    }
+
+    match /participants/{participantId} {
+      allow read: if isRole(['kader'])
+        || (signedIn() && resource.data.wargaId == request.auth.uid);
+      allow create, update: if isRole(['kader']);
+      allow delete: if isRole(['kader']);
+    }
+
+    match /visits/{visitId} {
+      allow read: if isRole(['kader'])
+        || (signedIn() && resource.data.wargaId == request.auth.uid);
+      allow create: if isRole(['kader'])
+        && request.resource.data.kaderId == request.auth.uid;
+      allow update, delete: if isRole(['kader']);
+    }
+
+    match /posyandu_events/{eventId} {
+      allow read: if signedIn();
+      allow write: if isRole(['kader']);
+    }
+  }
+}

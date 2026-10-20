@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fff7fb;
+  --card: rgba(255, 255, 255, 0.8);
+  --rose-primary: #f43f5e;
+  --rose-strong: #881337;
+  --rose-soft: #fdf2f8;
+  --text: #3f2c3a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(251, 113, 133, 0.18), transparent 30%),
+    linear-gradient(135deg, #fff1f2 0%, #fdf2f8 45%, #fff7fb 100%);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.78);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.soft-shadow {
+  box-shadow: 0 10px 30px rgba(244, 63, 94, 0.12);
+}
+
+.tactile-button {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 8px 0 0 rgba(225, 29, 72, 0.9);
+}
+
+.tactile-button:active {
+  transform: translateY(3px);
+  box-shadow: 0 4px 0 0 rgba(225, 29, 72, 0.9);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #9f1239, #f43f5e 50%, #f9a8d4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
